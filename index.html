@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MART 8 - ENKHJIN</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --pink1: #ff5fa2;
+      --pink2: #ff8fba;
+      --pink3: #ffd6e7;
+      --pink4: #fff0f6;
+      --text: #6a1240;
+      --deep: #9c1354;
+      --border-glass: rgba(255, 255, 255, 0.35);
+      --shadow: 0 20px 60px rgba(182, 24, 93, 0.22);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      background: linear-gradient(-45deg, #ff9fbd, #ffd1e3, #fff0f7, #ffc7dc);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .bg-blur-1,
+    .bg-blur-2,
+    .bg-blur-3 {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 0;
+      pointer-events: none;
+      animation: floatBlob 10s ease-in-out infinite;
+    }
+
+    .bg-blur-1 {
+      width: 240px;
+      height: 240px;
+      background: #ff78b0;
+      top: -40px;
+      left: -30px;
+    }
+
+    .bg-blur-2 {
+      width: 280px;
+      height: 280px;
+      background: #ffd5e6;
+      bottom: -60px;
+      right: -40px;
+      animation-delay: 2s;
+    }
+
+    .bg-blur-3 {
+      width: 200px;
+      height: 200px;
+      background: #ffb4d1;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation-delay: 4s;
+    }
+
+    @keyframes floatBlob {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-15px) scale(1.05); }
+    }
+
+    /* EMOJI URD TALD */
+    .petals, .hearts, .sparkles {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 30;
+    }
+
+    .petal, .heart-float, .sparkle {
+      position: absolute;
+      user-select: none;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .petal, .heart-float {
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      filter: drop-shadow(0 4px 10px rgba(255, 255, 255, 0.3));
+    }
+
+    .sparkle {
+      color: #fff;
+      animation: twinkle 2.2s ease-in-out infinite;
+      text-shadow:
+        0 0 8px rgba(255,255,255,0.95),
+        0 0 14px rgba(255,255,255,0.7);
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -120px, 0) rotate(0deg) scale(0.75);
+        opacity: 0;
+      }
+      8% {
+        opacity: 1;
+      }
+      20% {
+        transform: translate3d(18px, 20vh, 0) rotate(120deg) scale(0.95);
+      }
+      40% {
+        transform: translate3d(-22px, 45vh, 0) rotate(260deg) scale(1.08);
+      }
+      60% {
+        transform: translate3d(20px, 68vh, 0) rotate(420deg) scale(0.96);
+      }
+      80% {
+        transform: translate3d(-18px, 92vh, 0) rotate(580deg) scale(1.04);
+        opacity: 0.92;
+      }
+      100% {
+        transform: translate3d(10px, 120vh, 0) rotate(720deg) scale(0.82);
+        opacity: 0;
+      }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(0.7); }
+      50% { opacity: 1; transform: scale(1.35); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 760px;
+      padding: 34px 24px;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.30);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border-glass);
+      box-shadow: var(--shadow);
+      animation: cardShow 0.9s ease;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.18),
+        rgba(255,255,255,0.04),
+        rgba(255,255,255,0.18)
+      );
+      transform: translateX(-100%);
+      animation: shine 5.5s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shine {
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes cardShow {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.5);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      font-weight: 700;
+      color: var(--deep);
+      box-shadow: 0 8px 20px rgba(255, 105, 160, 0.12);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.15;
+      color: #d81b60;
+      margin-bottom: 14px;
+      text-shadow: 0 4px 14px rgba(216, 27, 96, 0.22);
+      animation: glowTitle 2.4s ease-in-out infinite;
+    }
+
+    @keyframes glowTitle {
+      0%, 100% {
+        text-shadow: 0 4px 14px rgba(216, 27, 96, 0.22);
+      }
+      50% {
+        text-shadow: 0 6px 22px rgba(216, 27, 96, 0.4);
+      }
+    }
+
+    .typing-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 62px;
+      margin: 10px 0 18px;
+    }
+
+    .name {
+      font-size: clamp(1.6rem, 5.3vw, 3rem);
+      font-weight: 800;
+      color: #ad1457;
+      letter-spacing: 1px;
+      word-break: break-word;
+      min-height: 1.3em;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.4);
+    }
+
+    .cursor {
+      display: inline-block;
+      color: #e91e63;
+      animation: blink 0.8s infinite;
+      margin-left: 4px;
+      font-weight: 300;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .message-box {
+      margin-top: 18px;
+      padding: 22px 18px;
+      border-radius: 24px;
+      background: rgba(255, 248, 252, 0.80);
+      border: 1px solid rgba(255, 182, 193, 0.45);
+      box-shadow: 0 14px 30px rgba(255, 105, 160, 0.08);
+      text-align: left;
+      position: relative;
+      z-index: 11;
+    }
+
+    .message-box p {
+      font-size: clamp(1rem, 3.9vw, 1.18rem);
+      line-height: 1.9;
+      margin: 0 0 16px;
+      color: #7c1d53;
+    }
+
+    .message-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .big-heart {
+      font-size: clamp(3.5rem, 12vw, 5.8rem);
+      display: inline-block;
+      margin: 0.3em 0 0.15em;
+      animation: pulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 10px 20px rgba(233, 30, 99, 0.25));
+      position: relative;
+      z-index: 11;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.18); }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 22px;
+      position: relative;
+      z-index: 11;
+    }
+
+    .btn {
+      border: none;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-size: clamp(0.98rem, 3.6vw, 1.08rem);
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 12px 28px rgba(233, 30, 99, 0.18);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff4f93, #ff8fb1);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.72);
+      color: #b3145f;
+      border: 1px solid rgba(255,255,255,0.65);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .surprise {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 245, 249, 0.88);
+      border: 1px solid rgba(255, 182, 193, 0.45);
+      color: #ad1457;
+      line-height: 1.75;
+      display: none;
+      animation: fadeUp 0.45s ease;
+      font-size: clamp(1rem, 3.7vw, 1.12rem);
+      box-shadow: 0 14px 30px rgba(255, 105, 160, 0.08);
+      position: relative;
+      z-index: 11;
+    }
+
+    .surprise.show {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .from {
+      margin-top: 1.8em;
+      font-size: clamp(0.95rem, 3.4vw, 1.12rem);
+      color: #6a1b4d;
+      font-weight: 600;
+      position: relative;
+      z-index: 11;
+    }
+
+    .floating-love {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 40;
+      background: rgba(255,255,255,0.38);
+      border: 1px solid rgba(255,255,255,0.45);
+      backdrop-filter: blur(12px);
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #ad1457;
+      font-size: 0.98rem;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(216, 27, 96, 0.12);
+      animation: floatMini 2.8s ease-in-out infinite;
+    }
+
+    @keyframes floatMini {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(120, 0, 50, 0.35);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .popup {
+      width: 100%;
+      max-width: 430px;
+      background: linear-gradient(180deg, #fff9fc, #ffeef5);
+      border-radius: 30px;
+      padding: 30px 22px;
+      box-shadow: 0 20px 50px rgba(173, 20, 87, 0.24);
+      border: 1px solid rgba(255, 182, 193, 0.5);
+      text-align: center;
+      animation: popupPop 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .popup h2 {
+      position: relative;
+      margin-bottom: 12px;
+      color: #d81b60;
+      font-size: clamp(1.6rem, 5vw, 2.3rem);
+    }
+
+    .popup p {
+      position: relative;
+      margin-bottom: 18px;
+      color: #7b1b52;
+      font-size: clamp(1rem, 3.9vw, 1.1rem);
+      line-height: 1.7;
+    }
+
+    .popup button {
+      position: relative;
+      border: none;
+      background: linear-gradient(135deg, #ff4f93, #ff8fb1);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(233, 30, 99, 0.2);
+      transition: 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popupPop {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        align-items: flex-start;
+        padding: 12px;
+      }
+
+      .container {
+        margin: 18px 0;
+        padding: 26px 16px;
+        border-radius: 26px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .popup {
+        padding: 24px 16px;
+        border-radius: 24px;
+      }
+
+      .floating-love {
+        bottom: 12px;
+        right: 12px;
+        font-size: 0.86rem;
+      }
+
+      .message-box {
+        padding: 18px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blur-1"></div>
+  <div class="bg-blur-2"></div>
+  <div class="bg-blur-3"></div>
+
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <h2>🌸 Март 8-ны мэнд хүргэе 🌸</h2>
+      <p>
+        Хайрт Энхжиндээ, чамд хамгийн сайхан бүхнийг хүсэж,
+        аз жаргалаар дүүрэн өдрийн мэнд хүргэе 💖
+      </p>
+      <button id="closePopup">Нээх ✨</button>
+    </div>
+  </div>
+
+  <div class="petals" id="petals"></div>
+  <div class="hearts" id="hearts"></div>
+  <div class="sparkles" id="sparkles"></div>
+
+  <div class="container">
+    <div class="badge">💐 Special For You 💐</div>
+
+    <h1>Мартын 8-ны баярын мэндчилгээ!</h1>
+
+    <div class="typing-wrap">
+      <div class="name"><span id="typedName"></span><span class="cursor">|</span></div>
+    </div>
+
+    <div class="big-heart">💖</div>
+
+    <div class="message-box">
+      <p>Чи бол хамгийн хөөрхөн, хамгийн ухаантай, хамгийн дулаахан — яг л цэцэг шиг тансаг хүн шүү.</p>
+
+      <p>Хүний амьдралд хүнд хэцүү үеүүд зөндөө гарч ирдэг шүү дээ. Тэр болгонд нь сэтгэлээр унаж, гуниглаж, өөрийгөө зовоогоод хэрэггүй шүү. Чи лав надад ингэж гутарч, гуниглаад суух ёсгүй охин юм шиг санагддаг.</p>
+
+      <p>Дандаа л аз жаргалтай, баяр хөөрөөр дүүрэн, халуун дулаан инээмсэглэлтэй миний нүдэнд харагддаг шүү дээ. Тийм болохоор би чамайг гунигтай, уйлж сууж байхыг чинь харахыг хүсэхгүй байна.</p>
+
+      <p>Үнэхээр хэцүү үед чинь би чиний дэргэд, чамтай хамт хэзээд байж чаднааа.</p>
+
+      <p>Өнөөдөр чиний өдөр шүү.</p>
+
+      <p><strong>Үргэлж инээж яваарай хайртаа. Хайртай шүү ❤️</strong></p>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-primary" id="surpriseBtn">Surprise нээх 💌</button>
+      <button class="btn btn-secondary" id="loveRainBtn">Love effect ✨ олон дараарай 😘</button>
+    </div>
+
+    <div class="surprise" id="surpriseBox">
+      Чи үргэлж инээмсэглэж, аз жаргалтай, өөрийнхөөрөө хамгийн үзэсгэлэнтэй нь байгаарай 🌷💕
+    </div>
+
+    <p class="from">Энгүүнээс нь 😘🌹</p>
+  </div>
+
+  <div class="floating-love">Made with love ❤️</div>
+
+  <script>
+    const petalEmojis = ['🌸', '🌷', '🌺', '🌹', '💮', '🏵️', '🍃'];
+    const heartEmojis = ['❤️', '💕', '💖', '💗', '💞', '💘'];
+    const sparkleEmojis = ['✨', '⭐', '💫'];
+
+    const petalsContainer = document.getElementById('petals');
+    const heartsContainer = document.getElementById('hearts');
+    const sparklesContainer = document.getElementById('sparkles');
+
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const loveRainBtn = document.getElementById('loveRainBtn');
+    const surpriseBox = document.getElementById('surpriseBox');
+
+    const popupOverlay = document.getElementById('popupOverlay');
+    const closePopup = document.getElementById('closePopup');
+    const typedName = document.getElementById('typedName');
+
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
+      petal.style.animationDuration = (Math.random() * 10 + 10) + 's';
+      petal.style.animationDelay = Math.random() * 3 + 's';
+      petal.style.opacity = Math.random() * 0.6 + 0.3;
+      petalsContainer.appendChild(petal);
+      setTimeout(() => petal.remove(), 22000);
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart-float';
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 1.05 + 0.7) + 'rem';
+      heart.style.animationDuration = (Math.random() * 12 + 10) + 's';
+      heart.style.animationDelay = Math.random() * 4 + 's';
+      heart.style.opacity = Math.random() * 0.6 + 0.35;
+      heartsContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), 24000);
+    }
+
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.top = Math.random() * 100 + 'vh';
+      sparkle.style.fontSize = (Math.random() * 0.8 + 0.7) + 'rem';
+      sparkle.style.animationDuration = (Math.random() * 2 + 1.8) + 's';
+      sparklesContainer.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 3500);
+    }
+
+    for (let i = 0; i < 12; i++) {
+      createPetal();
+      createHeart();
+    }
+
+    for (let i = 0; i < 20; i++) {
+      setTimeout(createSparkle, i * 150);
+    }
+
+    setInterval(createPetal, 1500);
+    setInterval(createHeart, 2500);
+    setInterval(createSparkle, 700);
+
+    surpriseBtn.addEventListener('click', () => {
+      surpriseBox.classList.toggle('show');
+      surpriseBtn.textContent = surpriseBox.classList.contains('show')
+        ? 'Хаах 💖'
+        : 'Surprise нээх 💌';
+    });
+
+    loveRainBtn.addEventListener('click', () => {
+      for (let i = 0; i < "90"; i++) {
+        setTimeout(createHeart, i * 120);
+      }
+      for (let i = 0; i < 12; i++) {
+        setTimeout(createSparkle, i * 100);
+      }
+    });
+
+    closePopup.addEventListener('click', () => {
+      popupOverlay.style.display = 'none';
+    });
+
+    popupOverlay.addEventListener('click', (e) => {
+      if (e.target === popupOverlay) {
+        popupOverlay.style.display = 'none';
+      }
+    });
+
+    const text = " Энхжин❤️";
+    let index = 0;
+
+    function typeName() {
+      if (index < text.length) {
+        typedName.textContent += text.charAt(index);
+        index++;
+        setTimeout(typeName, 140);
+      }
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(typeName, 500);
+    });
+  </script>
+</body>
+</html>
